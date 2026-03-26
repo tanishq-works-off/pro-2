@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RudraKashi</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;400&family=Cormorant+Garamond&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --saffron:#ff9933;
+  --dark-red:#7b1e1e;
+  --gold:#d4af37;
+}
+
+body {
+  margin:0;
+  font-family:'Poppins', sans-serif;
+  background:#fffaf3;
+}
+
+/* HERO */
+.hero {
+  height:100vh;
+  background:url('https://i.ibb.co/KxryGY5p/IMG-8617.jpg') center/cover no-repeat;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:white;
+  position:relative;
+}
+
+.hero::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+}
+
+.hero-content {
+  position:relative;
+  z-index:1;
+  max-width:700px;
+}
+
+.hero h1 {
+  font-family:'Cinzel';
+  font-size:3rem;
+  margin-bottom:10px;
+}
+
+.hero p {
+  font-size:1.2rem;
+}
+
+.btn {
+  background:linear-gradient(45deg,var(--saffron),var(--dark-red));
+  color:white;
+  padding:12px 28px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  margin-top:20px;
+  font-weight:bold;
+}
+
+/* PRODUCTS */
+.products {
+  padding:50px 20px;
+}
+
+.products h2 {
+  text-align:center;
+  font-family:'Cinzel';
+}
+
+.carousel {
+  display:flex;
+  gap:20px;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+  padding:20px 0;
+}
+
+.card {
+  min-width:250px;
+  background:white;
+  border-radius:15px;
+  padding:15px;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+
+.card img {
+  width:100%;
+  border-radius:10px;
+}
+
+.card h3 {
+  font-family:'Cinzel';
+}
+
+/* CART */
+.cart-icon {
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:var(--dark-red);
+  color:white;
+  padding:12px;
+  border-radius:50%;
+  cursor:pointer;
+  z-index:1000;
+}
+
+.cart-drawer {
+  position:fixed;
+  right:-320px;
+  top:0;
+  width:300px;
+  height:100%;
+  background:white;
+  box-shadow:-5px 0 15px rgba(0,0,0,0.2);
+  padding:20px;
+  transition:0.3s;
+  z-index:999;
+}
+
+.cart-drawer.open {
+  right:0;
+}
+
+/* FORM */
+input {
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  border-radius:5px;
+  border:1px solid #ccc;
+}
+
+/* WHATSAPP */
+.whatsapp {
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#25D366;
+  padding:15px;
+  border-radius:50%;
+  color:white;
+  text-decoration:none;
+  font-size:20px;
+}
+
+/* FOOTER */
+footer {
+  background:var(--dark-red);
+  color:white;
+  text-align:center;
+  padding:20px;
+  font-family:'Cormorant Garamond';
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>RudraKashi</h1>
+    <p>Best Authentic Rudraksha Direct From Nepal & Indonesia</p>
+    <button class="btn" onclick="scrollToProducts()">Shop Now</button>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <h2>Our Collection</h2>
+
+  <div class="carousel" id="carousel">
+
+    <div class="card">
+      <img src="https://i.ibb.co/LdYk31Zg/F1-FA92-DD-B709-4-F67-884-E-0382-E1-EBF0-DC.png">
+      <h3>3 Mukhi Rudraksha</h3>
+      <p>₹999</p>
+      <button class="btn" onclick="addToCart('3 Mukhi Rudraksha',999)">Add to Cart</button>
+    </div>
+
+    <div class="card">
+      <img src="https://i.ibb.co/1Yb3CndB/65096-B08-D610-4-B72-A8-E8-192074-A357-A4.jpg">
+      <h3>4 Mukhi Nepali Rudraksha</h3>
+      <p>₹1499</p>
+      <button class="btn" onclick="addToCart('4 Mukhi Rudraksha',1499)">Add to Cart</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- CART -->
+<div class="cart-icon" onclick="toggleCart()">🛒 <span id="count">0</span></div>
+
+<div class="cart-drawer" id="cart">
+  <h3>Your Cart</h3>
+  <ul id="cart-items"></ul>
+  <p><b>Total: ₹<span id="total">0</span></b></p>
+
+  <!-- FORM -->
+  <form action="https://formspree.io/f/xbdpjbjd" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="tel" name="phone" placeholder="Phone Number" required>
+    <input type="hidden" name="order" id="orderData">
+    <button class="btn" type="submit">Place Order</button>
+  </form>
+</div>
+
+<!-- WHATSAPP -->
+<a class="whatsapp" href="https://wa.me/+916394808925" target="_blank">💬</a>
+
+<!-- FOOTER -->
+<footer>
+  <p>RudraKashi</p>
+  <p>Email: rudraksahi.org@gmail.com</p>
+  <p>Contact: 6394808925</p>
+</footer>
+
+<script>
+let cart = [];
+
+// SCROLL
+function scrollToProducts() {
+  document.getElementById('products').scrollIntoView({behavior:'smooth'});
+}
+
+// ADD CART
+function addToCart(name, price) {
+  cart.push({name, price});
+  updateCart();
+}
+
+// UPDATE CART
+function updateCart() {
+  document.getElementById('count').innerText = cart.length;
+
+  let list = document.getElementById('cart-items');
+  list.innerHTML = "";
+
+  let total = 0;
+  cart.forEach(item => {
+    let li = document.createElement('li');
+    li.innerText = item.name + " - ₹" + item.price;
+    list.appendChild(li);
+    total += item.price;
+  });
+
+  document.getElementById('total').innerText = total;
+  document.getElementById('orderData').value = JSON.stringify(cart);
+}
+
+// TOGGLE CART
+function toggleCart() {
+  document.getElementById('cart').classList.toggle('open');
+}
+
+// AUTO SLIDE CAROUSEL
+let scrollAmount = 0;
+setInterval(() => {
+  const carousel = document.getElementById('carousel');
+  scrollAmount += 260;
+  if (scrollAmount > carousel.scrollWidth) scrollAmount = 0;
+  carousel.scrollTo({left: scrollAmount, behavior:'smooth'});
+}, 3000);
+</script>
+
+</body>
+</html>
